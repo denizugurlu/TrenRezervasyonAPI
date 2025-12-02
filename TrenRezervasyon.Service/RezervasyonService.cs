@@ -19,6 +19,8 @@ public class RezervasyonService
             {
                 if ( rezervasyonYapilacakKisiSayisi == 0) {break; }
                 int musaitKoltukSayisi = MusaitKoltuk(vagon);
+
+
                 if ( musaitKoltukSayisi > 0)
                 {
                     int yerlesenkisisayisi = Math.Min(rezervasyonYapilacakKisiSayisi, musaitKoltukSayisi);
@@ -42,6 +44,7 @@ public class RezervasyonService
             foreach ( var vagon in rezervasyonRequest.Tren.Vagonlar)
             {
                 int musaitKoltukSayisi =MusaitKoltuk(vagon);
+
                 if (musaitKoltukSayisi >= rezervasyonYapilacakKisiSayisi)
                 {
                     sonuc.RezervasyonYapilabilir = true;
@@ -51,11 +54,7 @@ public class RezervasyonService
                          KisiSayisi = rezervasyonYapilacakKisiSayisi
                     });
                     break;
-                } else  
-                {
-                    sonuc.RezervasyonYapilabilir = false;
-                    sonuc.YerlesimAyrinti.Clear();
-                }
+                } 
             }
         }
         return sonuc;
@@ -63,7 +62,7 @@ public class RezervasyonService
 
     private int MusaitKoltuk (Vagon vagon)
     {
-        int sinir =  (int) Math.Floor(vagon.Kapasite * 0.7) ; 
+        int sinir =  vagon.Kapasite*70 / 100 ; 
         int musaitKoltukSayisi = sinir - vagon.DoluKoltukAdet;
 
         if (musaitKoltukSayisi <= 0){return 0 ; }
